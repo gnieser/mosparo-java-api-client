@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h1>Test</h1>
+<form action="" method="post">
+    <label for="firstname">Firstname</label>
+    <input type="text" id="firstname" name="firstname" required=""><br><br>
+
+    <label for="lastname">Lastname</label>
+    <input type="text" id="lastname" name="lastname" required=""><br><br>
+
+    <div id="mosparo-box"></div>
+
+    <button type="submit" value="Submit">Submit</button>
+</form>
+<script src="http://mosparo_web/build/mosparo-frontend.js" defer=""></script>
+<script>
+    var m;
+    window.onload = function () {
+        m = new mosparo(
+            'mosparo-box',
+            'http://mosparo_web',
+            '#projectUuid#',
+            '#projectPublicKey#',
+            {loadCssResource: true}
+        );
+    };
+</script>
+</body>
+</html>
