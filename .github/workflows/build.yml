@@ -1,0 +1,30 @@
+name: Maven build
+
+env:
+  MAVEN_ARGS: -V -ntp -e
+
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Build with Maven
+        run: mvn ${MAVEN_ARGS} verify
+        env:
+          GPG_PASSPHRASE: ''

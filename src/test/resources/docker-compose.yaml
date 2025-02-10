@@ -1,0 +1,48 @@
+services:
+  db:
+    image: mariadb:10.10
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=password
+      - MARIADB_DATABASE=mosparo
+      - MARIADB_USER=mosparo
+      - MARIADB_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "0:3306"
+  mosparo_web:
+    image: mosparo/mosparo:v1.3.0
+    ports:
+      - "0:80"
+    restart: always
+    environment:
+      - MOSPARO_ENABLE_WEBSERVER=1
+      - MOSPARO_ENABLE_CRON=0
+      - MOSPARO_UPDATES_ENABLED=0
+      - MOSPARO_AUTOMATIC_UPDATE_CHECK_ENABLED=0
+      - MOSPARO_HEALTH_ALLOW_LIST=0.0.0.0/0 # Allow all for tests
+    volumes:
+      - mosparo_data:/mosparo-data
+    depends_on:
+      db:
+        condition: service_healthy
+  firefox:
+    image: selenium/standalone-firefox:129.0
+    environment:
+      - SE_AVOID_STATS=true
+    ports:
+      - "0:4444"
+  website:
+    image: nginx:1.27
+    ports:
+      - "0:80"
+volumes:
+  db_data:
+  mosparo_data:
