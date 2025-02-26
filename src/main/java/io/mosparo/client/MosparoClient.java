@@ -9,6 +9,21 @@ public interface MosparoClient {
 
     /**
      * Performs the backend verification of a form protected by mosparo.
+     * After successful verification, one should ensure all your required fields are verified
+     * 
+     * @see #verifySubmission(Map, Set) for a method that check the required fields.
+     *
+     * @param formData The form data included the mosparo fields
+     * @return the result of the verification
+     * @throws IOException if a communication error occurs
+     * @throws MosparoException if the verification fails, if the signatures mismatch
+     * @see <a href="https://documentation.mosparo.io/docs/api/verification#verify">API verify in mosparo documentation</a>
+     */
+    VerificationResult verifySubmission(Map<String, Object> formData) throws IOException, MosparoException;
+
+    /**
+     * Performs the backend verification of a form protected by mosparo and checks the required fields to ensure the protection
+     * is not by-passed
      *
      * @param formData The form data included the mosparo fields
      * @param requiredFields The list of fields to check to ensure the protection is not by-passed

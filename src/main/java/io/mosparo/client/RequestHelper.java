@@ -98,13 +98,15 @@ public class RequestHelper {
 
     private String extractStringValue(Map<String, Object> rawFormData, String key)
             throws MosparoException {
-        if (rawFormData.containsKey(key))
+        if (rawFormData.containsKey(key)) {
             if (rawFormData.get(key) instanceof String value) {
                 return value;
             } else {
-                throw new MosparoException(key+ " must be a String value.");
+                throw new MosparoException(key + " must be a String value.");
             }
-        throw new MosparoException(key + " must be provided.");
+        } else {
+            throw new MosparoException(key + " must be provided.");
+        }
     }
 
     /**

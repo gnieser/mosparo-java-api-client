@@ -56,11 +56,7 @@ public class MosparoDefaultClient implements MosparoClient {
     }
 
     @Override
-    public VerificationResult verifySubmission(Map<String, Object> formData, Set<String> requiredFields)
-            throws IOException, MosparoException {
-        if (requiredFields == null || requiredFields.isEmpty()) {
-            throw new MosparoException("Required fields must be non null and non empty");
-        }
+    public VerificationResult verifySubmission(Map<String, Object> formData) throws IOException, MosparoException {
 
         VerificationRequest request = helper.buildVerificationRequest(formData);
         HttpPost httpRequest = buildVerificationRequestHttpRequest(request);
@@ -71,6 +67,18 @@ public class MosparoDefaultClient implements MosparoClient {
             throw new MosparoException(result.getErrorMessage());
         }
         checkSignature(request, result);
+
+        return result;
+    }
+
+    @Override
+    public VerificationResult verifySubmission(Map<String, Object> formData, Set<String> requiredFields)
+            throws IOException, MosparoException {
+        if (requiredFields == null || requiredFields.isEmpty()) {
+            throw new MosparoException("Required fields must be non null and non empty");
+        }
+
+        VerificationResult result = verifySubmission(formData);
         checkRequiredFields(result, requiredFields);
 
         return result;
@@ -170,7 +178,7 @@ public class MosparoDefaultClient implements MosparoClient {
         // After successful verification, you should ensure all your required fields are verified
         for (String requiredField : requiredFields) {
             if (!result.getVerifiedFields().containsKey(requiredField)) {
-                throw new MosparoException(String.format("Required field '%s' not found", requiredField));
+                throw new MosparoException(String.format("Required field '%s' not verified", requiredField));
             }
         }
     }

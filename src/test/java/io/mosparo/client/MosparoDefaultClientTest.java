@@ -162,6 +162,33 @@ class MosparoDefaultClientTest {
     }
 
     @Test
+    void testVerifySubmissionWithoutRequiredFieldsCheck() throws MosparoException, IOException {
+        Map<String, Object> formData = Map.of(
+                "lastname", "Example",
+                "firstname", "John",
+                "_mosparo_submitToken", "submitToken",
+                "_mosparo_validationToken", "validationToken");
+
+        stubFor(post("/api/v1/verification/verify")
+                .willReturn(okJson("""
+                        {
+                          "valid": true,
+                          "verificationSignature": "ec196315e575f7f5b250f4e95d88cd45442b17ef4ff36141ed090d2814e3d8a3",
+                          "verifiedFields": {
+                            "firstname": "valid"
+                          },
+                          "issues": []
+                        }""")));
+
+        MosparoClient client = new MosparoDefaultClient(mosparoUrl, "publicKey", "privateKey");
+
+        // No exception is raised even though the lastname was not verified
+        VerificationResult result = client.verifySubmission(formData);
+
+        assertTrue(result.isValid());
+    }
+
+    @Test
     void testVerifySubmissionMissingRequiredField() {
         Map<String, Object> formData = Map.of(
                 "lastname", "Example",
@@ -184,7 +211,7 @@ class MosparoDefaultClientTest {
         MosparoException thrown = assertThrows(MosparoException.class,
                 () -> client.verifySubmission(formData, Set.of("firstname", "lastname")));
 
-        assertEquals("Required field 'lastname' not found", thrown.getMessage());
+        assertEquals("Required field 'lastname' not verified", thrown.getMessage());
     }
 
     @Test
