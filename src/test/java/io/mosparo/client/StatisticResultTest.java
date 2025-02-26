@@ -25,4 +25,12 @@ class StatisticResultTest {
         assertEquals(20, sr.getData().getNumberOfSpamSubmissions());
         assertThat(sr.getData().getNumbersByDate()).isEqualTo(byDate);
     }
+
+    @Test
+    void testStatisticResultError() {
+        StatisticResult sr = new StatisticResult(null, null, true, "Error");
+
+        assertTrue(sr.hasError());
+        assertEquals("Error", sr.getErrorMessage());
+    }
 }

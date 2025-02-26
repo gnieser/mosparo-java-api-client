@@ -21,7 +21,6 @@ public class VerificationResult {
     public static class Issue {
         String name;
         String message;
-
     }
 
     Boolean valid;
