@@ -48,7 +48,7 @@ public interface MosparoClient {
      * is not bypassed.
      * <p>
      * The required fields are those that must be verified to ensure the protection is not bypassed. These include not
-     * only mandatory form inputs but all the fields where users can enter data. Essentially, amy field that accepts user input
+     * only mandatory form inputs but all the fields where users can enter data. Essentially, any field that accepts user input
      * should be considered a required field for verification.
      * 
      * @param formData The form data, included the mosparo fields
