@@ -4,9 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.gnieser</groupId>
-    <!-- TODO Replace this group when you have register the equivalent namespace at sonatype maven central portal -->
-    <!-- <groupId>io.mosparo</groupId>-->
+    <groupId>io.mosparo</groupId>
     <artifactId>java-api-client</artifactId>
     <version>${revision}</version>
     <packaging>jar</packaging>
@@ -46,7 +44,7 @@
     </distributionManagement>
 
     <properties>
-        <revision>999-SNAPSHOT</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
 
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
