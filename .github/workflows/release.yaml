@@ -1,0 +1,38 @@
+name: Release and publish
+
+env:
+  MAVEN_ARGS: -V -ntp -e
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  release:
+    permissions:
+      contents: write # To rewrite pom.xml version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+          server-id: central
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Build with Maven
+        run: |
+          # Assuming tag_name starts with a "v"
+          mvn ${MAVEN_ARGS} clean deploy -Drevision="${BUILD:1}"
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_TOKEN: ${{ secrets.SONATYPE_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          BUILD: ${{ github.event.release.tag_name }}
