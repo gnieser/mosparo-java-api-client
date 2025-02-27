@@ -23,8 +23,9 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
 
       - name: Build with Maven
         run: mvn ${MAVEN_ARGS} verify
         env:
-          GPG_PASSPHRASE: ''
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
