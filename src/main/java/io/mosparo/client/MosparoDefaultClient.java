@@ -20,6 +20,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * Default implementation of the {@code MosparoClient} interface.
+ * Provides concrete methods to interact with the Mosparo API.
+ */
 public class MosparoDefaultClient implements MosparoClient {
 
     public static final String VERIFICATION_API_ENDPOINT = "/api/v1/verification/verify";

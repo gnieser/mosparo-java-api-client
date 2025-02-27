@@ -36,7 +36,10 @@ Include the mosparo into your project. E.g. for Maven users:
 MosparoClient client = new MosparoDefaultClient("https://<url>", "<publicKey>", "<privateKey>");
 ```
 
-2. Verify a form submission using the `verifySubmission` method. Provided the list of required fields of your form.
+2. Verify a form submission using the `verifySubmission` method.
+
+Provide the `Set` of required fields for your form verification. The set of required fields for form verification includes
+all user input fields regardless of whether they are marked as mandatory in the web form.
 
 ```java
 try {
