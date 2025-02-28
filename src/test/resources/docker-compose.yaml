@@ -18,7 +18,7 @@ services:
     ports:
       - "0:3306"
   mosparo_web:
-    image: mosparo/mosparo:v1.3.0
+    image: mosparo/mosparo:v1.3.3
     ports:
       - "0:80"
     restart: always

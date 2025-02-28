@@ -9,19 +9,19 @@ class HealthCheckResultTest {
 
     @Test
     void testHealthy() {
-        HealthCheckResult result = new HealthCheckResult("test", true, "amazing", null);
+        HealthCheckResult result = new HealthCheckResult("test", true, "amazing", null, 200);
         assertTrue(result.isHealthy());
     }
 
     @Test
     void testUnhealthy() {
-        HealthCheckResult result = new HealthCheckResult("test", false, "feeling bad", "error");
+        HealthCheckResult result = new HealthCheckResult("test", false, "feeling bad", "error", 500);
         assertFalse(result.isHealthy());
     }
 
     @Test
     void testNullIsUnhealthy() {
-        HealthCheckResult result = new HealthCheckResult("test", null, "it's null", "error");
+        HealthCheckResult result = new HealthCheckResult("test", null, "it's null", "error", 500);
         assertFalse(result.isHealthy());
     }
 }

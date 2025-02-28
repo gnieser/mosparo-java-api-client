@@ -14,6 +14,7 @@ public class HealthCheckResult {
     Boolean healthy;
     String databaseStatus;
     String error;
+    int statusCode;
 
     public boolean isHealthy() {
         return healthy != null && healthy;
